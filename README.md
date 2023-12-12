@@ -8,13 +8,13 @@ This repository contains two distinct examples of solving classic optimization p
 ### 1. Traveling Salesman Problem (TSP)
 Santa Claus needs to find the shortest route to deliver gifts worldwide. This example demonstrates how to solve the TSP using a genetic algorithm.
 
-- **Location**: `TSP-Solver/src/tsp_solver.py`
+- **Location**: `TSP-Solver/src/Santa_travel.py`
 - **Data**: `TSP-Solver/data/santaDistance01.json`
 
 ### 2. Knapsack Problem
 Santa must select the most optimal assortment of gifts subject to weight constraints. This example illustrates the application of a genetic algorithm to solve the Knapsack Problem.
 
-- **Location**: `Knapsack-Problem/src/knapsack_solver.py`
+- **Location**: `Knapsack-Problem/src/Santa_bag.py`
 
 ## Getting Started
 
