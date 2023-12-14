@@ -31,16 +31,17 @@ from pathlib import Path
 script_dir = os.path.dirname(os.path.realpath(__file__))
 
 # santaDistance*.json contains the distance map in list of list style in JSON format
-json_path = os.path.join(script_dir, "../data/santaDistance01.json")
+#json_path = os.path.join(script_dir, "../data/santaDistance01.json")
+json_path = os.path.join(script_dir, "../data/th.json")
 
 with open(json_path, "r") as tsp_data:
     distance_map = json.load(tsp_data)
 
-POPULATION_SIZE = 500
+POPULATION_SIZE = 300
 HALL_OF_FAME_SIZE = 1
 P_MUTATION = 0.5
 P_CROSSOVER = 0.3
-MAX_GENERATIONS = 200
+MAX_GENERATIONS = 100
 TOURNSIZE = 3
 INDPB = 0.05
 RANDOM_SEED = 42
@@ -49,16 +50,13 @@ IND_SIZE = len(distance_map)
 #The fitness evaluation function should be adjusted to start from the fixed city (index 0) and then follow the permutation of the other cities
 def evalTSP(individual):
     distance = 0
-    # Start from the fixed city (North Pole)
-    previous_city = 0
-    
     # Iterate over the cities in the individual's permutation
-    for current_city in individual[1:]:  # Skip the first city as it's fixed
-        distance += distance_map[previous_city][current_city]
-        previous_city = current_city
-    
-    # Return to the starting city
-    distance += distance_map[previous_city][0]
+    for i in range(1, len(individual)):
+        distance += distance_map[individual[i-1]][individual[i]]
+
+    # Add the distance from the last city back to the North Pole
+    distance += distance_map[individual[-1]][0]
+
     return distance,
 
 def customMutation(individual):
@@ -174,8 +172,12 @@ def display(distance_matrix, optimal_path):
     
 if __name__ == "__main__":
     res=main()
-    best_individual = tools.selBest(res[2], 1)[0]
+    #best_individual = tools.selBest(res[2], 1)[0]
+    best_individual = res[2][0]
     print("Best Individual:", best_individual)
     print("Total Distance:", evalTSP(best_individual)[0])
+
+    complete_route = list(best_individual) + [0]
+    print("Complete Route:", complete_route)
     
-    display(distance_map, best_individual)
+    display(distance_map, complete_route)
